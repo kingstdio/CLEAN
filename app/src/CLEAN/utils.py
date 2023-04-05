@@ -6,7 +6,8 @@ import torch
 import numpy as np
 import subprocess
 import pickle
-from .distance_map import get_dist_map
+# from .distance_map import get_dist_map
+from distance_map import get_dist_map
 
 def seed_everything(seed=1234):
     random.seed(seed)
@@ -118,8 +119,7 @@ def retrive_esm1b_embedding(fasta_name):
     esm_out = "data/esm_data"
     esm_type = "esm1b_t33_650M_UR50S"
     fasta_name = "data/" + fasta_name + ".fasta"
-    command = ["python", esm_script, esm_type, 
-              fasta_name, esm_out, "--include", "mean"]
+    command = ["python", esm_script, esm_type, fasta_name, esm_out, "--include", "mean"]
     subprocess.run(command)
  
 def compute_esm_distance(train_file):
@@ -142,6 +142,14 @@ def prepare_infer_fasta(fasta_name):
     for i in fastafile.readlines():
         if i[0] == '>':
             csvwriter.writerow([i.strip()[1:], ' ', ' '])
+
+def table2fasta(table, file_out):
+    file = open(file_out, 'w')
+    for index, row in table.iterrows():
+        file.write('>{0}\n'.format(row[0]))
+        file.write('{0}\n'.format(row[1]))
+    file.close()
+    print('Write finished')
     
 
 

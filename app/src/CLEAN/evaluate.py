@@ -1,7 +1,7 @@
 import csv
-from .utils import *
-from .distance_map import *
-from .evaluate import *
+from utils import *
+from distance_map import *
+from evaluate import *
 from sklearn.preprocessing import MultiLabelBinarizer
 from sklearn.metrics import precision_score, recall_score, \
     roc_auc_score, accuracy_score, f1_score, average_precision_score
@@ -306,6 +306,7 @@ def get_eval_metrics(pred_label, pred_probs, true_label, all_label):
     pre = precision_score(true_m, pred_m, average='weighted', zero_division=0)
     rec = recall_score(true_m, pred_m, average='weighted')
     f1 = f1_score(true_m, pred_m, average='weighted')
-    roc = roc_auc_score(true_m, pred_m_auc, average='weighted')
+    # roc = roc_auc_score(true_m, pred_m_auc, average='weighted')
+    roc=0
     acc = accuracy_score(true_m, pred_m)
     return pre, rec, f1, roc, acc

@@ -1,8 +1,8 @@
 import torch
-from .utils import * 
-from .model import LayerNormNet
-from .distance_map import *
-from .evaluate import *
+from utils import * 
+from model import LayerNormNet
+from distance_map import *
+from evaluate import *
 import pandas as pd
 import warnings
 
@@ -72,8 +72,7 @@ def infer_pvalue(train_data, test_data, p_value = 1e-5, nk_random = 20,
     
 
 
-def infer_maxsep(train_data, test_data, report_metrics = False, 
-                 pretrained=True, model_name=None):
+def infer_maxsep(train_data, test_data, report_metrics = False, pretrained=True, model_name=None):
     use_cuda = torch.cuda.is_available()
     device = torch.device("cuda:0" if use_cuda else "cpu")
     dtype = torch.float32
@@ -113,15 +112,18 @@ def infer_maxsep(train_data, test_data, report_metrics = False,
     ensure_dirs("./results")
     out_filename = "results/" +  test_data
     write_max_sep_choices(eval_df, out_filename)
+
     if report_metrics:
         pred_label = get_pred_labels(out_filename, pred_type='_maxsep')
         pred_probs = get_pred_probs(out_filename, pred_type='_maxsep')
         true_label, all_label = get_true_labels('./data/' + test_data)
+
+        print(true_label)
+        print(all_label)
         pre, rec, f1, roc, acc = get_eval_metrics(
             pred_label, pred_probs, true_label, all_label)
         print("############ EC calling results using maximum separation ############")
         print('-' * 75)
         print(f'>>> total samples: {len(true_label)} | total ec: {len(all_label)} \n'
-            f'>>> precision: {pre:.3} | recall: {rec:.3}'
-            f'| F1: {f1:.3} | AUC: {roc:.3} ')
+                f'>>> precision: {pre:.3f} | recall: {rec:.3f}' f'| F1: {f1:.3f} | AUC: {roc:.3f} ')
         print('-' * 75)

@@ -11,4 +11,8 @@ src/CLEAN/__pycache__/
 
 # Ignore large models that have been fetched manually
 *.pt
+*.pyc
+*.pth
+*.csv
 
+app/src/CLEAN/__pycache__/distance_map.cpython-310.pyc
